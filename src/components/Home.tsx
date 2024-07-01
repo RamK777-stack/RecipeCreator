@@ -30,9 +30,6 @@ export default function Home() {
                 <DropDownSelect value={value} isSelected={isSelected} onSelect={onSelect} />
             </div>
             <PersonalizationForm />
-            <div className="flex justify-center">
-                <button className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded text-white transition duration-300"> Generate </button>
-            </div>
         </div>
     );
 }
