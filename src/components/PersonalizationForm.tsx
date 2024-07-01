@@ -85,7 +85,7 @@ const PersonalizationForm = () => {
             </div>
 
             <div className="mb-6">
-                <h3 className="font-medium mb-4">Available cooking time</h3>
+                <h3 className="font-medium mb-4">Available cooking time (in minutes)</h3>
                 <Input type="text" placeholder="Enter available cooking time" className="w-full" />
             </div>
 
