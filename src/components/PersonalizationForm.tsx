@@ -20,12 +20,18 @@ const formSchema = z.object({
     cookingMethods: z.array(z.string()).default([]),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof formSchema>;
+export type ExtendedFormValues = FormValues & { ingredients: string[] };
+
 
 interface CheckboxItemProps {
     control: UseFormReturn<FormValues>['control'];
     name: keyof FormValues;
     label: string;
+}
+
+interface PersonalizationFormProps {
+    onSubmitForm: (userInput: FormValues) => void
 }
 
 const CheckboxItem: React.FC<CheckboxItemProps> = ({ control, name, label }) => (
@@ -50,7 +56,7 @@ const CheckboxItem: React.FC<CheckboxItemProps> = ({ control, name, label }) => 
     />
 );
 
-const PersonalizationForm: React.FC = () => {
+const PersonalizationForm: React.FC<PersonalizationFormProps> = ({ onSubmitForm }) => {
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -67,28 +73,7 @@ const PersonalizationForm: React.FC = () => {
     });
 
     const onSubmit = async (userInput: FormValues) => {
-        console.log(userInput);
-        userInput['Available ingredients'] = ['Potato', 'Tomato', 'Onion']
-
-        try {
-            const response = await fetch('/api/generate-recipe', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userInput }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to generate recipe');
-            }
-
-            const result = await response.json();
-            return result.recipe;
-        } catch (error) {
-            console.error('Error generating recipe:', error);
-            return null;
-        }
+        onSubmitForm(userInput)
     };
 
     return (

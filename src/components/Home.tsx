@@ -2,9 +2,9 @@
 
 import { DropDownSelect } from "@/components/ui/DropdownSelect";
 import { useState } from "react";
-import { Header } from "./Header";
-import { Input } from "@/components/ui/input"
-import PersonalizationForm from "./PersonalizationForm";
+import PersonalizationForm, { ExtendedFormValues, FormValues } from "./PersonalizationForm";
+import { TYPES } from "@/lib/config";
+
 
 export default function Home() {
 
@@ -24,12 +24,40 @@ export default function Home() {
         return value.includes(selectedValue)
     }
 
+    const onSubmitForm = async (userInput: FormValues) => {
+        
+        const extendedUserInput: ExtendedFormValues = {
+            ...userInput,
+            ingredients: value,
+        };
+
+        try {
+            const response = await fetch('/api/generate-recipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userInput: extendedUserInput, type: TYPES.RECIPE_SUGGESTION }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to generate recipe');
+            }
+
+            const result = await response.json();
+            return result.recipe;
+        } catch (error) {
+            console.error('Error generating recipe:', error);
+            return null;
+        }
+    }
+
     return (
         <div className="container mx-auto py-8 space-y-8">
             <div className="flex justify-center">
                 <DropDownSelect value={value} isSelected={isSelected} onSelect={onSelect} />
             </div>
-            <PersonalizationForm />
+            <PersonalizationForm onSubmitForm={onSubmitForm} />
         </div>
     );
 }

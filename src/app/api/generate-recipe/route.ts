@@ -2,12 +2,12 @@
 
 import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
-import { RECIPE_PROMPT } from '@/lib/config';
+import { RECIPE_PROMPT, RECIPE_SUGGESTION_PROMPT, TYPES } from '@/lib/config';
 
 
 export async function POST(request: Request) {
     const body = await request.json();
-    const { userInput } = body;
+    const { userInput, type } = body;
 
     if (!userInput) {
         return NextResponse.json({ message: 'User input is required' }, { status: 400 });
@@ -24,7 +24,14 @@ export async function POST(request: Request) {
         apiKey: apiKey,
     });
 
-    const fullPrompt = RECIPE_PROMPT.replace('{{USER_INPUT}}', JSON.stringify(userInput));
+    let fullPrompt;
+    if (type === TYPES.GENERATE_RECIPE) {
+        fullPrompt = RECIPE_PROMPT.replace('{{USER_INPUT}}', JSON.stringify(userInput));
+    } else if (type === TYPES.RECIPE_SUGGESTION) {
+        fullPrompt = RECIPE_SUGGESTION_PROMPT.replace('{{USER_INPUT}}', JSON.stringify(userInput));
+    } else {
+        return NextResponse.json({ message: 'Invalid type specified' }, { status: 400 });
+    }
 
     try {
         const response = await anthropic.messages.create({
@@ -42,7 +49,7 @@ export async function POST(request: Request) {
             : 'Unable to generate recipe text';
 
         return NextResponse.json({ recipe: recipeText });
-        
+
     } catch (error) {
         console.error('Error calling Claude API:', error);
         return NextResponse.json({ message: 'Error generating recipe' }, { status: 500 });
