@@ -66,9 +66,29 @@ const PersonalizationForm: React.FC = () => {
         },
     });
 
-    const onSubmit = (data: FormValues) => {
-        console.log(data);
-        // Here you would typically send the data to your backend or perform other actions
+    const onSubmit = async (userInput: FormValues) => {
+        console.log(userInput);
+        userInput['Available ingredients'] = ['Potato', 'Tomato', 'Onion']
+
+        try {
+            const response = await fetch('/api/generate-recipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userInput }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to generate recipe');
+            }
+
+            const result = await response.json();
+            return result.recipe;
+        } catch (error) {
+            console.error('Error generating recipe:', error);
+            return null;
+        }
     };
 
     return (
