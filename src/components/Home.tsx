@@ -45,6 +45,7 @@ export default function Home() {
             }
 
             const result = await response.json();
+            console.log(result.recipe)
             return result.recipe;
         } catch (error) {
             console.error('Error generating recipe:', error);
