@@ -9,6 +9,7 @@ import { TYPES } from "@/lib/config";
 export default function Home() {
 
     const [value, setValue] = useState<string[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
 
     const onSelect = (selectedValue: string) => {
         setValue(prevValue => {
@@ -25,11 +26,13 @@ export default function Home() {
     }
 
     const onSubmitForm = async (userInput: FormValues) => {
-        
+
         const extendedUserInput: ExtendedFormValues = {
             ...userInput,
             ingredients: value,
         };
+
+        setLoading(true);
 
         try {
             const response = await fetch('/api/generate-recipe', {
@@ -46,9 +49,11 @@ export default function Home() {
 
             const result = await response.json();
             console.log(result.recipe)
+            setLoading(false);
             return result.recipe;
         } catch (error) {
             console.error('Error generating recipe:', error);
+            setLoading(false);
             return null;
         }
     }
@@ -58,7 +63,7 @@ export default function Home() {
             <div className="flex justify-center">
                 <DropDownSelect value={value} isSelected={isSelected} onSelect={onSelect} />
             </div>
-            <PersonalizationForm onSubmitForm={onSubmitForm} />
+            <PersonalizationForm loading={loading} onSubmitForm={onSubmitForm} />
         </div>
     );
 }
