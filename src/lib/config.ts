@@ -102,17 +102,19 @@ Based on the extracted information, create a list of 3-5 recipe suggestions. For
 - Meet nutritional goals if mentioned
 
 4. Format your output in JSON:
-Present your recipe suggestions in the following format just JSON without extra whitespace:
-"recipe_suggestions": [
-    {
-        "name": "[Recipe Name]",
-        "description": "[Brief description of the dish]",
-        "key_ingredients": "[List 3-5 key ingredients]",
-        "cooking_time": "[Estimated cooking time]",
-        "difficulty": "[Easy/Medium/Hard]",
-        "cuisine": "[Cuisine type]"
-    }
-]
+Present your recipe suggestions in the following format, without any additional text:
+{
+    "recipe_suggestions": [
+        {
+            "name": "[Recipe Name]",
+            "description": "[Brief description of the dish]",
+            "key_ingredients": "[List 3-5 key ingredients]",
+            "cooking_time": "[Estimated cooking time]",
+            "difficulty": "[Easy/Medium/Hard]",
+            "cuisine": "[Cuisine type]"
+        }
+    ]
+}
 
 5. Special considerations:
 - If the user provides a specific recipe name, prioritize variations of that recipe in your suggestions.

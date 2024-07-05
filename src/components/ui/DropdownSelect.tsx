@@ -33,8 +33,20 @@ const ingredients = [
     label: "Red chilly",
   },
   {
-    value: "onion",
-    label: "Onion",
+    value: "cabbage",
+    label: "Cabbage",
+  },
+  {
+    value: "garlic",
+    label: "Garlic",
+  },
+  {
+    value: "drumstick",
+    label: "Drumstick",
+  },
+  {
+    value: "snake Gourd",
+    label: "Snake Gourd",
   }
 ]
 

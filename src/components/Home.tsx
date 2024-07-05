@@ -4,12 +4,25 @@ import { DropDownSelect } from "@/components/ui/DropdownSelect";
 import { useState } from "react";
 import PersonalizationForm, { ExtendedFormValues, FormValues } from "./PersonalizationForm";
 import { TYPES } from "@/lib/config";
+import RecipeCardList from "./RecipeCardList";
 
+
+interface Recipe {
+    name: string;
+    description: string;
+    key_ingredients: [];
+    cooking_time: string;
+    difficulty: 'Easy' | 'Medium' | 'Hard';
+    cuisine: string;
+}
 
 export default function Home() {
 
     const [value, setValue] = useState<string[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const [personalizationFormOpen, setPersonalizationFormOpen] = useState<boolean>(true)
+    const [recipeSuggestions, setRecipeSuggestions] = useState<Recipe[]>([])
+
 
     const onSelect = (selectedValue: string) => {
         setValue(prevValue => {
@@ -50,6 +63,8 @@ export default function Home() {
             const result = await response.json();
             console.log(result.recipe)
             setLoading(false);
+            setPersonalizationFormOpen(false)
+            setRecipeSuggestions(JSON.parse(result?.recipe).recipe_suggestions)
             return result.recipe;
         } catch (error) {
             console.error('Error generating recipe:', error);
@@ -63,7 +78,9 @@ export default function Home() {
             <div className="flex justify-center">
                 <DropDownSelect value={value} isSelected={isSelected} onSelect={onSelect} />
             </div>
-            <PersonalizationForm loading={loading} onSubmitForm={onSubmitForm} />
+            <PersonalizationForm loading={loading} personalizationFormOpen={personalizationFormOpen} setPersonalizationFormOpen={setPersonalizationFormOpen} onSubmitForm={onSubmitForm} />
+
+            <RecipeCardList recipeSuggestions={recipeSuggestions} />
         </div>
     );
 }
