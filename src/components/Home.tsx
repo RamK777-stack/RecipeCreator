@@ -74,7 +74,7 @@ export default function Home() {
     }
 
     return (
-        <div className="container mx-auto py-8 space-y-8">
+        <div className="container mx-auto py-6 space-y-8">
             <div className="flex justify-center">
                 <DropDownSelect value={value} isSelected={isSelected} onSelect={onSelect} />
             </div>

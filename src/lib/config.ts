@@ -108,7 +108,7 @@ Present your recipe suggestions in the following format, without any additional 
         {
             "name": "[Recipe Name]",
             "description": "[Brief description of the dish]",
-            "key_ingredients": "[List 3-5 key ingredients]",
+            "key_ingredients": "[List key ingredients as array]",
             "cooking_time": "[Estimated cooking time]",
             "difficulty": "[Easy/Medium/Hard]",
             "cuisine": "[Cuisine type]"
