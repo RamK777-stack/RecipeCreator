@@ -80,7 +80,7 @@ export default function Home() {
             </div>
             <PersonalizationForm loading={loading} personalizationFormOpen={personalizationFormOpen} setPersonalizationFormOpen={setPersonalizationFormOpen} onSubmitForm={onSubmitForm} />
 
-            <RecipeCardList recipeSuggestions={recipeSuggestions} />
+            {recipeSuggestions.length ? <RecipeCardList recipeSuggestions={recipeSuggestions} />: null}
         </div>
     );
 }

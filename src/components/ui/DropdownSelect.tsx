@@ -18,37 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
-const ingredients = [
-  {
-    value: "tomato",
-    label: "Tomato",
-  },
-  {
-    value: "potato",
-    label: "Potato",
-  },
-  {
-    value: "red_chilly",
-    label: "Red chilly",
-  },
-  {
-    value: "cabbage",
-    label: "Cabbage",
-  },
-  {
-    value: "garlic",
-    label: "Garlic",
-  },
-  {
-    value: "drumstick",
-    label: "Drumstick",
-  },
-  {
-    value: "snake Gourd",
-    label: "Snake Gourd",
-  }
-]
+import { ingredients } from "@/lib/config"
 
 interface props {
   value: string[],

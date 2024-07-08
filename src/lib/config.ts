@@ -35,31 +35,19 @@ Next, create a comprehensive recipe that addresses the user's requirements. Your
 
 6. Similar Dish Suggestions: Recommend 2-3 similar dishes that the user might enjoy based on their preferences.
 
-Format your output as follows:
+Format your output in JSON Object as follows:
 
-<recipe>
-<name>[Recipe Name]</name>
+{
+  "recipe": {
+    "name": "[Recipe Name]",
+    "ingredients": "[List of ingredients with measurements]",
+    "instructions": "[Numbered list of cooking steps with timer]",
+    "nutrition": "[Nutritional information per serving]",
+    "facts": "[1-2 interesting facts]",
+    "similar_dishes": "[2-3 similar dish suggestions]"
+  }
+}
 
-<ingredients>
-[List of ingredients with measurements]
-</ingredients>
-
-<instructions>
-[Numbered list of cooking steps with timer]
-</instructions>
-
-<nutrition>
-[Nutritional information per serving]
-</nutrition>
-
-<facts>
-[1-2 interesting facts]
-</facts>
-
-<similar_dishes>
-[2-3 similar dish suggestions]
-</similar_dishes>
-</recipe>
 
 Special considerations:
 1. If the user has specified dietary restrictions (e.g., vegetarian, vegan, gluten-free), ensure that all ingredients and cooking methods comply with these restrictions.
@@ -93,7 +81,7 @@ Analyze the user input to identify key details such as:
 - Cooking method preferences
 
 3. Generate recipe suggestions:
-Based on the extracted information, create a list of 3-5 recipe suggestions. For each recipe, consider the following:
+Based on the extracted information, create a list of 6 to 9 recipe suggestions. For each recipe, consider the following:
 - Ensure it aligns with the user's dietary restrictions and allergies
 - Incorporate available ingredients when possible
 - Match the desired flavor profile and cuisine preferences
@@ -127,3 +115,144 @@ export const TYPES = {
     'RECIPE_SUGGESTION': 'suggestion',
     'GENERATE_RECIPE': 'recipe'
 }
+
+export const ingredients = [
+    // Indian
+    { value: "rice", label: "Rice" },
+    { value: "coconut", label: "Coconut" },
+    { value: "tamarind", label: "Tamarind" },
+    { value: "curry_leaves", label: "Curry Leaves" },
+    { value: "mustard_seeds", label: "Mustard Seeds" },
+    { value: "urad_dal", label: "Urad Dal" },
+    { value: "chana_dal", label: "Chana Dal" },
+    { value: "turmeric", label: "Turmeric" },
+    { value: "asafoetida", label: "Asafoetida (Hing)" },
+    { value: "green_chilies", label: "Green Chilies" },
+    { value: "ginger", label: "Ginger" },
+    { value: "tomatoes", label: "Tomatoes" },
+    { value: "idli_rice", label: "Idli Rice" },
+    { value: "sambar_powder", label: "Sambar Powder" },
+    { value: "rasam_powder", label: "Rasam Powder" },
+    { value: "jaggery", label: "Jaggery" },
+    { value: "fenugreek_seeds", label: "Fenugreek Seeds" },
+    { value: "black_pepper", label: "Black Pepper" },
+    { value: "red_chilies", label: "Red Chilies" },
+    { value: "toor_dal", label: "Toor Dal" },
+    { value: "wheat_flour", label: "Wheat Flour" },
+    { value: "chickpeas", label: "Chickpeas (Chole)" },
+    { value: "paneer", label: "Paneer" },
+    { value: "ghee", label: "Ghee" },
+    { value: "cumin_seeds", label: "Cumin Seeds" },
+    { value: "coriander_seeds", label: "Coriander Seeds" },
+    { value: "garam_masala", label: "Garam Masala" },
+    { value: "cardamom", label: "Cardamom" },
+    { value: "cinnamon", label: "Cinnamon" },
+    { value: "cloves", label: "Cloves" },
+    { value: "onions", label: "Onions" },
+    { value: "garlic", label: "Garlic" },
+    { value: "yogurt", label: "Yogurt" },
+    { value: "amchur", label: "Amchur (Dried Mango Powder)" },
+    { value: "kasoori_methi", label: "Kasoori Methi (Dried Fenugreek Leaves)" },
+    { value: "basmati_rice", label: "Basmati Rice" },
+    { value: "kidney_beans", label: "Red Kidney Beans (Rajma)" },
+    { value: "fennel_seeds", label: "Fennel Seeds" },
+    { value: "bay_leaves", label: "Bay Leaves" },
+    { value: "mustard_oil", label: "Mustard Oil" },
+    // Italian
+    { value: "olive_oil", label: "Olive Oil" },
+    { value: "basil", label: "Basil" },
+    { value: "mozzarella", label: "Mozzarella" },
+    { value: "parmesan", label: "Parmesan" },
+    { value: "pasta", label: "Pasta" },
+    { value: "balsamic_vinegar", label: "Balsamic Vinegar" },
+    { value: "prosciutto", label: "Prosciutto" },
+    { value: "pancetta", label: "Pancetta" },
+    { value: "oregano", label: "Oregano" },
+    { value: "pine_nuts", label: "Pine Nuts" },
+    { value: "ricotta", label: "Ricotta" },
+    { value: "semolina", label: "Semolina" },
+    { value: "capers", label: "Capers" },
+    { value: "anchovies", label: "Anchovies" },
+    { value: "arborio_rice", label: "Arborio Rice" },
+    { value: "porcini_mushrooms", label: "Porcini Mushrooms" },
+    { value: "pecorino", label: "Pecorino" },
+    { value: "polenta", label: "Polenta" },
+    // Mexican
+    { value: "corn_tortillas", label: "Corn Tortillas" },
+    { value: "beans", label: "Beans" },
+    { value: "avocado", label: "Avocado" },
+    { value: "cilantro", label: "Cilantro" },
+    { value: "jalapenos", label: "Jalapeños" },
+    { value: "limes", label: "Limes" },
+    { value: "queso_fresco", label: "Queso Fresco" },
+    { value: "chili_powder", label: "Chili Powder" },
+    { value: "cumin", label: "Cumin" },
+    { value: "epazote", label: "Epazote" },
+    { value: "tomatillos", label: "Tomatillos" },
+    { value: "chipotle", label: "Chipotle" },
+    { value: "masa_harina", label: "Masa Harina" },
+    { value: "nopales", label: "Nopales" },
+    { value: "chorizo", label: "Chorizo" },
+    { value: "cotija_cheese", label: "Cotija Cheese" },
+    { value: "mexican_oregano", label: "Mexican Oregano" },
+    { value: "poblano_peppers", label: "Poblano Peppers" },
+    // French
+    { value: "butter", label: "Butter" },
+    { value: "cream", label: "Cream" },
+    { value: "baguette", label: "Baguette" },
+    { value: "dijon_mustard", label: "Dijon Mustard" },
+    { value: "tarragon", label: "Tarragon" },
+    { value: "shallots", label: "Shallots" },
+    { value: "herbes_de_provence", label: "Herbes de Provence" },
+    { value: "cognac", label: "Cognac" },
+    { value: "white_wine", label: "White Wine" },
+    { value: "gruyere", label: "Gruyère" },
+    { value: "creme_fraiche", label: "Crème Fraîche" },
+    { value: "leeks", label: "Leeks" },
+    { value: "thyme", label: "Thyme" },
+    { value: "chives", label: "Chives" },
+    { value: "foie_gras", label: "Foie Gras" },
+    { value: "truffle", label: "Truffle" },
+    { value: "escargot", label: "Escargot" },
+    { value: "duck_fat", label: "Duck Fat" },
+    { value: "charcuterie", label: "Charcuterie" },
+    { value: "fines_herbes", label: "Fines Herbes" },
+    // Chinese
+    { value: "soy_sauce", label: "Soy Sauce" },
+    { value: "sesame_oil", label: "Sesame Oil" },
+    { value: "rice_vinegar", label: "Rice Vinegar" },
+    { value: "five_spice_powder", label: "Five Spice Powder" },
+    { value: "hoisin_sauce", label: "Hoisin Sauce" },
+    { value: "oyster_sauce", label: "Oyster Sauce" },
+    { value: "szechuan_peppercorns", label: "Szechuan Peppercorns" },
+    { value: "star_anise", label: "Star Anise" },
+    { value: "chili_oil", label: "Chili Oil" },
+    { value: "green_onions", label: "Green Onions" },
+    { value: "bamboo_shoots", label: "Bamboo Shoots" },
+    { value: "dried_shiitake_mushrooms", label: "Dried Shiitake Mushrooms" },
+    { value: "shaoxing_wine", label: "Shaoxing Wine" },
+    { value: "bean_paste", label: "Bean Paste" },
+    { value: "wood_ear_mushrooms", label: "Wood Ear Mushrooms" },
+    { value: "lotus_root", label: "Lotus Root" },
+    { value: "bok_choy", label: "Bok Choy" },
+    // Thai
+    { value: "fish_sauce", label: "Fish Sauce" },
+    { value: "coconut_milk", label: "Coconut Milk" },
+    { value: "lemongrass", label: "Lemongrass" },
+    { value: "thai_basil", label: "Thai Basil" },
+    { value: "kaffir_lime_leaves", label: "Kaffir Lime Leaves" },
+    { value: "galangal", label: "Galangal" },
+    { value: "palm_sugar", label: "Palm Sugar" },
+    { value: "bird's_eye_chili", label: "Bird's Eye Chili" },
+    { value: "shrimp_paste", label: "Shrimp Paste" },
+    { value: "thai_eggplant", label: "Thai Eggplant" },
+    { value: "curry_paste", label: "Curry Paste" },
+    { value: "rice_noodles", label: "Rice Noodles" },
+    { value: "holy_basil", label: "Holy Basil" },
+    { value: "makrut_lime", label: "Makrut Lime" },
+    { value: "coconut_cream", label: "Coconut Cream" },
+    { value: "green_papaya", label: "Green Papaya" },
+    { value: "pandan_leaves", label: "Pandan Leaves" },
+    { value: "long_beans", label: "Long Beans" },
+    { value: "nam_pla", label: "Nam Pla (Thai Fish Sauce)" },
+  ];
