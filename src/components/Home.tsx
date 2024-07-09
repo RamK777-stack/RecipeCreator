@@ -8,6 +8,7 @@ import RecipeCardList from "./RecipeCardList";
 
 
 interface Recipe {
+    id: string;
     name: string;
     description: string;
     key_ingredients: [];

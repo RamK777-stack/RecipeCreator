@@ -94,6 +94,7 @@ Present your recipe suggestions in the following format, without any additional 
 {
     "recipe_suggestions": [
         {
+            "id": "[recipe-name]",
             "name": "[Recipe Name]",
             "description": "[Brief description of the dish]",
             "key_ingredients": "[List key ingredients as array]",

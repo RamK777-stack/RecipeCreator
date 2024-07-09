@@ -1,9 +1,13 @@
+'use client'
+
 import React from 'react';
 import { Clock, Utensils, Globe, ChefHat } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useRouter } from 'next/navigation';
 
 export interface Recipe {
+    id: string;
     name: string;
     description: string;
     key_ingredients: [];
@@ -14,6 +18,7 @@ export interface Recipe {
 
 interface RecipeCardProps {
     recipe: Recipe;
+    handleClick: (recipe: Recipe) => void;
 }
 
 const getDifficultyColor = (difficulty: string) => {
@@ -29,10 +34,10 @@ const getDifficultyColor = (difficulty: string) => {
     }
 };
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, handleClick }) => {
     const difficultyColor = getDifficultyColor(recipe.difficulty);
     return (
-        <Card className="w-full cursor-pointer flex flex-col h-full">
+        <Card className="w-full cursor-pointer flex flex-col h-full" onClick={() => handleClick(recipe)}>
             <CardHeader>
                 <div className="flex justify-between items-start">
                     <CardTitle className="text-xl font-semibold">{recipe.name}</CardTitle>
@@ -76,12 +81,19 @@ interface RecipeCardListProps {
 
 const RecipeCardList: React.FC<RecipeCardListProps> = ({ recipeSuggestions }) => {
     console.log(recipeSuggestions)
+    const router = useRouter();
+
+    const handleClick = (recipe: Recipe) => {
+        localStorage.setItem('currentRecipe', JSON.stringify(recipe));
+        router.push(`recipe/${recipe.id}`);
+    };
+
     return (
         <div className="max-w-4xl mx-auto">
             <h1 className="text-2xl font-semibold mb-6">Recipe Suggestions</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {recipeSuggestions.map((recipe, index) => (
-                    <RecipeCard key={index} recipe={recipe} />
+                    <RecipeCard key={index} recipe={recipe} handleClick={handleClick}/>
                 ))}
             </div>
         </div>)
