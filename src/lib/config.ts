@@ -35,13 +35,13 @@ Next, create a comprehensive recipe that addresses the user's requirements. Your
 
 6. Similar Dish Suggestions: Recommend 2-3 similar dishes that the user might enjoy based on their preferences.
 
-Format your output in JSON Object as follows:
+Format your output in JSON string as follows without any additional text:
 
 {
-  "recipe": {
+  "recipe_detail": {
     "name": "[Recipe Name]",
-    "ingredients": "[List of ingredients with measurements]",
-    "instructions": "[Numbered list of cooking steps with timer]",
+    "ingredients": "[List of ingredients with measurements as array of objects]",
+    "instructions": "[Numbered list of cooking steps with timer as array of objects]",
     "nutrition": "[Nutritional information per serving]",
     "facts": "[1-2 interesting facts]",
     "similar_dishes": "[2-3 similar dish suggestions]"
