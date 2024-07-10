@@ -111,10 +111,53 @@ Present your recipe suggestions in the following format, without any additional 
 - If nutritional goals are mentioned, briefly note how each recipe aligns with those goals.
 - If the user's input is vague or lacks specific details, use your culinary knowledge to make reasonable assumptions and provide diverse suggestions.
 `
+export const REGENERATE_WITH_ALTERNATE_INGREDIENTS = `You are a cooking assistant tasked with modifying a recipe by replacing an ingredient with an alternative. The original recipe is provided in JSON format, along with the ingredient to be replaced and its alternative. Your job is to regenerate the recipe with the substitution and provide the updated recipe in the same JSON format.
+Here is the original recipe JSON:
+<recipe_json>
+{{RECIPE_JSON}}
+</recipe_json>
+
+The ingredient to be replaced is:
+<ingredient_to_replace>{{INGREDIENT_TO_REPLACE}}</ingredient_to_replace>
+
+The alternative ingredient is:
+<alternative_ingredient>{{ALTERNATIVE_INGREDIENT}}</alternative_ingredient>
+
+Follow these steps to modify the recipe:
+
+1. Carefully review the original recipe JSON.
+2. Identify the ingredient to be replaced in the ingredients list.
+3. Replace the specified ingredient with the alternative ingredient, adjusting quantities if necessary to maintain the recipe's balance.
+4. Review and modify the instructions to accommodate the ingredient change, if needed.
+5. Update the nutrition information to reflect the change in ingredients, if possible.
+6. Modify the "facts" section to include information about the ingredient substitution, if relevant.
+7. Adjust the "similar_dishes" suggestions if the substitution significantly changes the nature of the dish.
+
+When regenerating the recipe, keep the following guidelines in mind:
+- Maintain the overall structure and style of the original recipe.
+- Ensure that the alternative ingredient works well with the other ingredients and cooking methods.
+- If the substitution requires significant changes to the recipe, make sure to update all relevant sections accordingly.
+
+Format your output in JSON string as follows without any additional text:
+
+{
+  "recipe_detail": {
+    "name": "[Recipe Name]",
+    "ingredients": "[List of ingredients with measurements as array of objects]",
+    "instructions": "[Numbered list of cooking steps with timer as array of objects]",
+    "nutrition": "[Nutritional information per serving]",
+    "facts": "[1-2 interesting facts]",
+    "similar_dishes": "[2-3 similar dish suggestions]"
+  }
+}
+
+Ensure that your response is well-formatted and maintains the JSON structure. Double-check that all necessary modifications have been made to accommodate the ingredient substitution.
+`
 
 export const TYPES = {
     'RECIPE_SUGGESTION': 'suggestion',
-    'GENERATE_RECIPE': 'recipe'
+    'GENERATE_RECIPE': 'recipe',
+    'REGENERATE_WITH_ALTERNATE_INGREDIENTS': 'regenerate_with_alternate_ingredients'
 }
 
 export const ingredients = [

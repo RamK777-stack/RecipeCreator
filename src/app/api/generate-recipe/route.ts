@@ -2,12 +2,12 @@
 
 import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
-import { RECIPE_PROMPT, RECIPE_SUGGESTION_PROMPT, TYPES } from '@/lib/config';
+import { RECIPE_PROMPT, RECIPE_SUGGESTION_PROMPT, REGENERATE_WITH_ALTERNATE_INGREDIENTS, TYPES } from '@/lib/config';
 
 
 export async function POST(request: Request) {
     const body = await request.json();
-    const { userInput, type } = body;
+    const { userInput, type, ingredientToReplace, alternativeIngredient = 'Suggest something else' } = body;
 
     if (!userInput) {
         return NextResponse.json({ message: 'User input is required' }, { status: 400 });
@@ -29,6 +29,11 @@ export async function POST(request: Request) {
         fullPrompt = RECIPE_PROMPT.replace('{{USER_INPUT}}', JSON.stringify(userInput));
     } else if (type === TYPES.RECIPE_SUGGESTION) {
         fullPrompt = RECIPE_SUGGESTION_PROMPT.replace('{{USER_INPUT}}', JSON.stringify(userInput));
+    } else if (type === TYPES.REGENERATE_WITH_ALTERNATE_INGREDIENTS) {
+        fullPrompt = REGENERATE_WITH_ALTERNATE_INGREDIENTS
+            .replace('{{RECIPE_JSON}}', JSON.stringify(userInput))
+            .replace('{{INGREDIENT_TO_REPLACE}}', JSON.stringify(ingredientToReplace))
+            .replace('{{ALTERNATIVE_INGREDIENT}}', JSON.stringify(alternativeIngredient));
     } else {
         return NextResponse.json({ message: 'Invalid type specified' }, { status: 400 });
     }
