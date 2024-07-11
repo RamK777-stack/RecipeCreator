@@ -64,6 +64,7 @@ const AnimatedLoading: FC = () => (
       alt="Loading animation"
       width={300}
       height={300}
+      unoptimized={true}
     />
     <p className="mt-2 text-lg font-semibold text-gray-600">Preparing your recipe...</p>
   </div>
@@ -92,7 +93,7 @@ const RecipePage: FC<PageProps> = ({ params }) => {
     notFound();
   }
 
-  const fetchRecipe = async (type: string) => {
+  const fetchRecipe = async (recipe: RecipeDetail | null, type: string) => {
     setIsLoading(true);
     try {
 
@@ -119,9 +120,7 @@ const RecipePage: FC<PageProps> = ({ params }) => {
       }
 
       const result = await response.json();
-      console.log(result)
       const parsedRecipe = JSON.parse(result?.recipe)?.recipe_detail;
-      debugger
       if (parsedRecipe) {
         setRecipe(parsedRecipe);
       }
@@ -138,7 +137,7 @@ const RecipePage: FC<PageProps> = ({ params }) => {
     const storedRecipe = localStorage.getItem('currentRecipe');
     if (storedRecipe) {
       setRecipe(JSON.parse(storedRecipe));
-      fetchRecipe(TYPES.GENERATE_RECIPE);
+      fetchRecipe(JSON.parse(storedRecipe), TYPES.GENERATE_RECIPE);
     } else {
       setIsLoading(false);
     }
@@ -157,7 +156,7 @@ const RecipePage: FC<PageProps> = ({ params }) => {
     console.log(`Alternative for ${currentIngredient?.item}: ${alternativeIngredient}`);
     // Here you would typically update your state or send this data to your backend
 
-    fetchRecipe(TYPES.REGENERATE_WITH_ALTERNATE_INGREDIENTS)
+    fetchRecipe(recipe, TYPES.REGENERATE_WITH_ALTERNATE_INGREDIENTS)
     setIsDialogOpen(false);
   };
 

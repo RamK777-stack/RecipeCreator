@@ -42,7 +42,7 @@ Format your output in JSON string as follows without any additional text:
     "name": "[Recipe Name]",
     "ingredients": "[List of ingredients with measurements as array of objects]",
     "instructions": "[Numbered list of cooking steps with timer as array of objects]",
-    "nutrition": "[Nutritional information per serving]",
+    "nutrition": "{"calories: "Nutrition Value Nutrition Unit" like wise for protein, carbohydrates, fat, fiber}",
     "facts": "[1-2 interesting facts]",
     "similar_dishes": "[2-3 similar dish suggestions]"
   }
@@ -90,7 +90,8 @@ Based on the extracted information, create a list of 6 to 9 recipe suggestions. 
 - Meet nutritional goals if mentioned
 
 4. Format your output in JSON:
-Present your recipe suggestions in the following format, without any additional text:
+Present your recipe_detail in the following format, without any additional text:
+
 {
     "recipe_suggestions": [
         {
@@ -138,7 +139,8 @@ When regenerating the recipe, keep the following guidelines in mind:
 - Ensure that the alternative ingredient works well with the other ingredients and cooking methods.
 - If the substitution requires significant changes to the recipe, make sure to update all relevant sections accordingly.
 
-Format your output in JSON string as follows without any additional text:
+4. Format your output in JSON:
+Present your recipe_detail in the following format, without any additional text:
 
 {
   "recipe_detail": {

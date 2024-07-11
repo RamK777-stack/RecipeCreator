@@ -125,9 +125,10 @@ const PersonalizationForm: React.FC<PersonalizationFormProps> = ({ loading, onSu
                                 <div>
                                     <h3 className="font-medium mb-4">Dietary restrictions</h3>
                                     <div className="flex flex-col space-y-4">
-                                        <CheckboxItem control={form.control} name="dietaryRestrictions" label="vegetarian" />
-                                        <CheckboxItem control={form.control} name="dietaryRestrictions" label="vegan" />
-                                        <CheckboxItem control={form.control} name="dietaryRestrictions" label="gluten-free" />
+                                        <CheckboxItem control={form.control} name="dietaryRestrictions" label="Vegetarian" />
+                                        <CheckboxItem control={form.control} name="dietaryRestrictions" label="Vegan" />
+                                        <CheckboxItem control={form.control} name="dietaryRestrictions" label="Gluten-free" />
+                                        <CheckboxItem control={form.control} name="dietaryRestrictions" label="Lactose-free" />
                                         <CheckboxItem control={form.control} name="dietaryRestrictions" label="Other" />
                                     </div>
                                 </div>
@@ -137,6 +138,7 @@ const PersonalizationForm: React.FC<PersonalizationFormProps> = ({ loading, onSu
                                         <CheckboxItem control={form.control} name="flavors" label="Sweet" />
                                         <CheckboxItem control={form.control} name="flavors" label="Spicy (heat)" />
                                         <CheckboxItem control={form.control} name="flavors" label="Fruity" />
+                                        <CheckboxItem control={form.control} name="flavors" label="Tangy" />
                                         <CheckboxItem control={form.control} name="flavors" label="Other" />
                                     </div>
                                 </div>
@@ -165,6 +167,8 @@ const PersonalizationForm: React.FC<PersonalizationFormProps> = ({ loading, onSu
                                     <CheckboxItem control={form.control} name="preferredCuisines" label="Indian" />
                                     <CheckboxItem control={form.control} name="preferredCuisines" label="Italian" />
                                     <CheckboxItem control={form.control} name="preferredCuisines" label="Mexican" />
+                                    <CheckboxItem control={form.control} name="preferredCuisines" label="Chinese" />
+                                    <CheckboxItem control={form.control} name="preferredCuisines" label="Japanese" />
                                     <CheckboxItem control={form.control} name="preferredCuisines" label="Other" />
                                 </div>
                             </div>
@@ -199,9 +203,11 @@ const PersonalizationForm: React.FC<PersonalizationFormProps> = ({ loading, onSu
                             <div>
                                 <h3 className="font-medium mb-4">Nutritional goals</h3>
                                 <div className="flex flex-col space-y-4">
-                                    <CheckboxItem control={form.control} name="nutritionalGoals" label="low-calorie" />
-                                    <CheckboxItem control={form.control} name="nutritionalGoals" label="high-protein" />
-                                    <CheckboxItem control={form.control} name="nutritionalGoals" label="high-carbs" />
+                                    <CheckboxItem control={form.control} name="nutritionalGoals" label="Low-Calorie" />
+                                    <CheckboxItem control={form.control} name="nutritionalGoals" label="High-Protein" />
+                                    <CheckboxItem control={form.control} name="nutritionalGoals" label="High-Carb" />
+                                    <CheckboxItem control={form.control} name="nutritionalGoals" label="Low-Carb" />
+                                    <CheckboxItem control={form.control} name="nutritionalGoals" label="Iron-Rich" />
                                     <CheckboxItem control={form.control} name="nutritionalGoals" label="Other" />
                                 </div>
                             </div>
