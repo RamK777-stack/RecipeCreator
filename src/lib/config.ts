@@ -41,7 +41,7 @@ Format your output in JSON string as follows without any additional text:
   "recipe_detail": {
     "name": "[Recipe Name]",
     "ingredients": "[List of ingredients with measurements as array of objects]",
-    "instructions": "[Numbered list of cooking steps with timer as array of objects]",
+    "instructions": "[{"step": number, "instruction": 'instruction', timer: 'number and mins/hrs information'}]",
     "nutrition": "{"calories: "Nutrition Value Nutrition Unit" like wise for protein, carbohydrates, fat, fiber}",
     "facts": "[1-2 interesting facts]",
     "similar_dishes": "[2-3 similar dish suggestions]"
@@ -146,8 +146,8 @@ Present your recipe_detail in the following format, without any additional text:
   "recipe_detail": {
     "name": "[Recipe Name]",
     "ingredients": "[List of ingredients with measurements as array of objects]",
-    "instructions": "[Numbered list of cooking steps with timer as array of objects]",
-    "nutrition": "[Nutritional information per serving]",
+    "instructions": "[{"step": number, "instruction": 'instruction', timer: 'number and mins/hrs information'}]",
+    "nutrition": "{"calories: "Nutrition Value Nutrition Unit" like wise for protein, carbohydrates, fat, fiber}",
     "facts": "[1-2 interesting facts]",
     "similar_dishes": "[2-3 similar dish suggestions]"
   }
