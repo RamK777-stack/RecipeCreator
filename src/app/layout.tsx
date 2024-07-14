@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "@/app/css/style.css";
 import { Header } from "@/components/Header";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
         <div className="flex min-h-screen flex-col overflow-hidden supports-[overflow:clip]:overflow-clip">
           <Header />
           {children}
+          <Toaster />
         </div>
       </body>
     </html>

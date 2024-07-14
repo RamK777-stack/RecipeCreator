@@ -3,9 +3,30 @@
 import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { RECIPE_PROMPT, RECIPE_SUGGESTION_PROMPT, REGENERATE_WITH_ALTERNATE_INGREDIENTS, TYPES } from '@/lib/config';
+import { rateLimit, getRemainingRequests, getResetTime } from '@/lib/utils';
 
+export interface ErrorResponse {
+    message: string;
+    remaining?: number;
+    resetTime?: string | null;
+}
 
 export async function POST(request: Request) {
+    // Get the client's IP address
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown';
+
+    // Check rate limit
+    if (!rateLimit(ip)) {
+        const remaining = getRemainingRequests(ip);
+        console.log("Remaining", remaining)
+        const resetTime = getResetTime(ip);
+        return NextResponse.json({ 
+            message: 'Rate limit exceeded', 
+            remaining,
+            resetTime
+        }, { status: 429 });
+    }
+
     const body = await request.json();
     const { userInput, type, ingredientToReplace, alternativeIngredient = 'Suggest something else' } = body;
 
@@ -53,7 +74,8 @@ export async function POST(request: Request) {
             ? response.content[0].text
             : 'Unable to generate recipe text';
 
-        return NextResponse.json({ recipe: recipeText });
+        const remaining = getRemainingRequests(ip);
+        return NextResponse.json({ recipe: recipeText, remaining });
 
     } catch (error) {
         console.error('Error calling Claude API:', error);

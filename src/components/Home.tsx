@@ -5,7 +5,8 @@ import { useState } from "react";
 import PersonalizationForm, { ExtendedFormValues, FormValues } from "./PersonalizationForm";
 import { TYPES } from "@/lib/config";
 import RecipeCardList from "./RecipeCardList";
-
+import { ErrorResponse } from "@/app/api/generate-recipe/route";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Recipe {
     id: string;
@@ -23,7 +24,7 @@ export default function Home() {
     const [loading, setLoading] = useState<boolean>(false)
     const [personalizationFormOpen, setPersonalizationFormOpen] = useState<boolean>(true)
     const [recipeSuggestions, setRecipeSuggestions] = useState<Recipe[]>([])
-
+    const { toast } = useToast();
 
     const onSelect = (selectedValue: string) => {
         setValue(prevValue => {
@@ -58,7 +59,35 @@ export default function Home() {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to generate recipe');
+                const errorData: ErrorResponse = await response.json();
+                if (response.status === 429) {
+                    const utcRetryTime = new Date(errorData.resetTime!);
+                    // Format date and time
+                    const formattedDateTime = utcRetryTime.toLocaleString(undefined, {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+
+                    toast({
+                        title: "Rate Limit Exceeded",
+                        description: `Please try again after ${formattedDateTime}. Remaining requests: ${errorData.remaining}`,
+                        variant: "destructive",
+                    });
+                    setLoading(false);
+                    console.log(`Rate limit exceeded. Try again after ${errorData.resetTime}.`);
+                } else {
+                    toast({
+                        title: "Error",
+                        description: errorData.message,
+                        variant: "destructive",
+                    });
+                    console.error('Error:', errorData.message);
+                }
+                return;
             }
 
             const result = await response.json();
@@ -70,6 +99,7 @@ export default function Home() {
         } catch (error) {
             console.error('Error generating recipe:', error);
             setLoading(false);
+            setPersonalizationFormOpen(true)
             return null;
         }
     }
@@ -81,7 +111,7 @@ export default function Home() {
             </div>
             <PersonalizationForm loading={loading} personalizationFormOpen={personalizationFormOpen} setPersonalizationFormOpen={setPersonalizationFormOpen} onSubmitForm={onSubmitForm} />
 
-            {recipeSuggestions.length ? <RecipeCardList recipeSuggestions={recipeSuggestions} />: null}
+            {recipeSuggestions.length ? <RecipeCardList recipeSuggestions={recipeSuggestions} /> : null}
         </div>
     );
 }
