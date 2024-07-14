@@ -17,6 +17,7 @@ import RecipeCardList from './RecipeCardList';
 
 // Define the schema for form validation
 const formSchema = z.object({
+    recipeName: z.string().optional(),
     servings: z.number().min(1).max(10),
     dietaryRestrictions: z.array(z.string()).default([]),
     flavors: z.array(z.string()).default([]),
@@ -72,6 +73,7 @@ const PersonalizationForm: React.FC<PersonalizationFormProps> = ({ loading, onSu
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            recipeName: "",
             servings: 4,
             dietaryRestrictions: [],
             flavors: [],
@@ -91,6 +93,25 @@ const PersonalizationForm: React.FC<PersonalizationFormProps> = ({ loading, onSu
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
+
+                <div className="mb-6">
+                    <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        Recipe Name (Optional)
+                    </h2>
+                    <FormField
+                        control={form.control}
+                        name="recipeName"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input {...field} placeholder="Enter recipe name" className="w-full" />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
