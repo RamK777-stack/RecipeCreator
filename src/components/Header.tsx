@@ -5,7 +5,13 @@ import { Button } from './ui/button';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import GoogleTranslate from './GoogleTranslate';
-
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { TooltipWrapper } from './ui/TooltipWrapper';
 
 export function Header() {
     const router = useRouter()
@@ -24,7 +30,9 @@ export function Header() {
                     <h3 className="text-xl font-semibold">Recipe Creator</h3>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <Button variant="default">Login</Button>
+                    <TooltipWrapper tooltipContent="Coming soon">
+                        <Button variant="default">Login</Button>
+                    </TooltipWrapper>
                     <GoogleTranslate />
                 </div>
             </div>
