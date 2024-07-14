@@ -1,10 +1,9 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import React, { useState } from "react";
+import { Check, ChevronsUpDown, Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,23 +11,38 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { ingredients } from "@/lib/config"
+} from "@/components/ui/popover";
+import { ingredients as initialIngredients } from "@/lib/config";
 
-interface props {
-  value: string[],
-  onSelect: (selectedValue: string) => void,
-  isSelected: (value: string) => Boolean
+interface Props {
+  value: string[];
+  onSelect: (selectedValue: string) => void;
+  isSelected: (value: string) => boolean;
 }
 
-export function DropDownSelect({ value, onSelect, isSelected }: props) {
-  const [open, setOpen] = React.useState(false)
+export function DropDownSelect({ value, onSelect, isSelected }: Props) {
+  const [open, setOpen] = useState(false);
+  const [ingredients, setIngredients] = useState(initialIngredients);
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const handleSelect = (currentValue: string) => {
+    onSelect(currentValue);
+    setSearchTerm("");
+  };
+
+  const addNewIngredient = () => {
+    const newIngredient = {
+      value: searchTerm.toLowerCase().replace(/\s+/g, "-"),
+      label: searchTerm,
+    };
+    setIngredients([...ingredients, newIngredient]);
+    handleSelect(newIngredient.value);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -40,22 +54,37 @@ export function DropDownSelect({ value, onSelect, isSelected }: props) {
           className="w-[600px] justify-between"
         >
           {value.length > 0
-            ? value.map(v => ingredients.find(i => i.value === v)?.label).join(", ")
+            ? value
+                .map((v) => ingredients.find((i) => i.value === v)?.label)
+                .join(", ")
             : "Select Ingredients..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[600px] p-0">
         <Command>
-          <CommandInput placeholder="Search Ingredient..." />
+          <CommandInput 
+            placeholder="Search Ingredient..." 
+            value={searchTerm}
+            onValueChange={setSearchTerm}
+          />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>
+              <Button 
+                variant="ghost" 
+                className="w-full justify-start"
+                onClick={addNewIngredient}
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Add "{searchTerm}" as a new ingredient
+              </Button>
+            </CommandEmpty>
             <CommandGroup>
               {ingredients.map((ingredient) => (
                 <CommandItem
                   key={ingredient.value}
                   value={ingredient.value}
-                  onSelect={onSelect}
+                  onSelect={handleSelect}
                 >
                   <Check
                     className={cn(
@@ -71,5 +100,5 @@ export function DropDownSelect({ value, onSelect, isSelected }: props) {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
