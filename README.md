@@ -1,5 +1,10 @@
 # Recipe Generator App
 
+## Built for 
+[hashnode ai-for-tomorrow hackathon](https://hashnode.com/hackathons/ai-for-tomorrow?source=ai)
+
+## Read more on my [hashnode blog](https://ramk.hashnode.dev/smart-meal-planner)
+
 This app helps you create delicious recipes based on the ingredients you have and your personal preferences. It aims to make meal planning easy and reduce food waste.
 
 ## Features
