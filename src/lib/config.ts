@@ -121,7 +121,7 @@ Here is the original recipe JSON:
 The ingredient to be replaced is:
 <ingredient_to_replace>{{INGREDIENT_TO_REPLACE}}</ingredient_to_replace>
 
-The alternative ingredient is:
+The alternative ingredient is, this can be a ingredient or instruction so act accordingly.:
 <alternative_ingredient>{{ALTERNATIVE_INGREDIENT}}</alternative_ingredient>
 
 Follow these steps to modify the recipe:

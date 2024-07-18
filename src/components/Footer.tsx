@@ -18,13 +18,13 @@ const Footer = () => {
                     />
                 </svg>
                 <span>by</span>
-                <a href="https://x.com/ravancodes" target="_blank" rel="noopener noreferrer" className="ml-1 text-blue-600 hover:text-blue-700 transition-colors underline">
+                <a href="https://x.com/ravancodes" target="_blank" rel="noopener noreferrer" className="ml-1 text-blue-600 hover:text-blue-700 transition-colors underline cursor-pointer">
                     Ramkumar.barani
                 </a>
             </div>
             <div className="flex items-center justify-center">
                 <span>Read more</span>
-                <a href="https://ramk.hashnode.dev/smart-meal-planner" target="_blank" rel="noopener noreferrer" className="ml-1 text-blue-600 hover:text-blue-700 transition-colors underline">
+                <a href="https://ramk.hashnode.dev/smart-meal-planner" target="_blank" rel="noopener noreferrer" className="ml-1 text-blue-600 hover:text-blue-700 transition-colors underline cursor-pointer">
                     #AIForTomorrow
                 </a>
             </div>

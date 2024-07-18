@@ -16,6 +16,8 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { ErrorResponse } from "@/app/api/generate-recipe/route";
+import { useToast } from "@/components/ui/use-toast";
 
 interface PageProps {
   params: {
@@ -94,13 +96,14 @@ const RecipePage: FC<PageProps> = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentIngredient, setCurrentIngredient] = useState<Ingredient | null>(null);
   const [alternativeIngredient, setAlternativeIngredient] = useState('');
+  const { toast } = useToast();
 
   // Example of handling non-existent routes
   if (recipe?.name === 'not-found') {
     notFound();
   }
 
-  const fetchRecipe = React.useCallback(async (recipeData: RecipeDetail | null, type: string) => {
+  const fetchRecipe = React.useCallback(async (recipeData: RecipeDetail | null, type: string, alternativeIngredient: string, ingredientToReplace: string | undefined) => {
     setIsLoading(true);
     try {
       const requestBody = {
@@ -109,7 +112,7 @@ const RecipePage: FC<PageProps> = () => {
       } as RequestBody;
 
       if (type === TYPES.REGENERATE_WITH_ALTERNATE_INGREDIENTS) {
-        requestBody.ingredientToReplace = currentIngredient?.item;
+        requestBody.ingredientToReplace = ingredientToReplace;
         requestBody.alternativeIngredient = alternativeIngredient;
       }
 
@@ -121,8 +124,35 @@ const RecipePage: FC<PageProps> = () => {
         body: JSON.stringify(requestBody),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to generate recipe');
+        if (!response.ok) {
+          const errorData: ErrorResponse = await response.json();
+          if (response.status === 429) {
+              const utcRetryTime = new Date(errorData.resetTime!);
+              // Format date and time
+              const formattedDateTime = utcRetryTime.toLocaleString(undefined, {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+              });
+
+              toast({
+                  title: "Rate Limit Exceeded",
+                  description: `Please try again after ${formattedDateTime}. Remaining requests: ${errorData.remaining}`,
+                  variant: "destructive",
+              });
+              console.log(`Rate limit exceeded. Try again after ${errorData.resetTime}.`);
+          } else {
+              toast({
+                  title: "Error",
+                  description: errorData.message,
+                  variant: "destructive",
+              });
+              console.error('Error:', errorData.message);
+          }
+          return;
       }
 
       const result = await response.json();
@@ -137,16 +167,18 @@ const RecipePage: FC<PageProps> = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [currentIngredient, alternativeIngredient]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     const storedRecipe = localStorage.getItem('currentRecipe');
     if (storedRecipe) {
       setRecipe(JSON.parse(storedRecipe));
-      fetchRecipe(JSON.parse(storedRecipe), TYPES.GENERATE_RECIPE);
+      fetchRecipe(JSON.parse(storedRecipe), TYPES.GENERATE_RECIPE, alternativeIngredient, currentIngredient?.item);
     } else {
       setIsLoading(false);
     }
+    // eslint-disable-next-line
   }, [fetchRecipe]);
 
   if (isLoading) {
@@ -162,7 +194,7 @@ const RecipePage: FC<PageProps> = () => {
     console.log(`Alternative for ${currentIngredient?.item}: ${alternativeIngredient}`);
     // Here you would typically update your state or send this data to your backend
 
-    fetchRecipe(recipe, TYPES.REGENERATE_WITH_ALTERNATE_INGREDIENTS)
+    fetchRecipe(recipe, TYPES.REGENERATE_WITH_ALTERNATE_INGREDIENTS, alternativeIngredient, currentIngredient?.item)
     setIsDialogOpen(false);
   };
 
