@@ -1,5 +1,5 @@
 'use client'
-
+import * as React from "react"
 import { FC, useEffect, useState } from 'react';
 import { notFound } from 'next/navigation';
 import { TYPES } from '@/lib/config';
@@ -57,6 +57,13 @@ interface NutritionBoxProps {
   value: string;
 }
 
+type RequestBody = {
+  userInput: RecipeDetail | null,
+  type: string,
+  ingredientToReplace?: string,
+  alternativeIngredient?: string,
+}
+
 const AnimatedLoading: FC = () => (
   <div className="flex flex-col justify-center items-center h-screen">
     <Image
@@ -78,10 +85,10 @@ const NutritionBox: React.FC<NutritionBoxProps> = ({ icon, label, value }) => (
   </div>
 );
 
-const RecipePage: FC<PageProps> = ({ params }) => {
+const RecipePage: FC<PageProps> = () => {
   // Here you would typically fetch the recipe data based on the params.recipe
   // For demonstration, we're just using the param directly
-  const { id } = params;
+  // const { id } = params;
   const [recipe, setRecipe] = useState<RecipeDetail | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -93,14 +100,13 @@ const RecipePage: FC<PageProps> = ({ params }) => {
     notFound();
   }
 
-  const fetchRecipe = async (recipe: RecipeDetail | null, type: string) => {
+  const fetchRecipe = React.useCallback(async (recipeData: RecipeDetail | null, type: string) => {
     setIsLoading(true);
     try {
-
       const requestBody = {
-        userInput: recipe,
+        userInput: recipeData,
         type: type
-      } as any;
+      } as RequestBody;
 
       if (type === TYPES.REGENERATE_WITH_ALTERNATE_INGREDIENTS) {
         requestBody.ingredientToReplace = currentIngredient?.item;
@@ -131,7 +137,7 @@ const RecipePage: FC<PageProps> = ({ params }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentIngredient, alternativeIngredient]);
 
   useEffect(() => {
     const storedRecipe = localStorage.getItem('currentRecipe');
@@ -141,7 +147,7 @@ const RecipePage: FC<PageProps> = ({ params }) => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [fetchRecipe]);
 
   if (isLoading) {
     return <AnimatedLoading />;

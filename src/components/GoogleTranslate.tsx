@@ -12,7 +12,7 @@ declare global {
     google: {
       translate: {
         TranslateElement: {
-          new(options: any, element: string): any;
+          new (options: Record<string, unknown>, element: string): unknown;
           InlineLayout: {
             SIMPLE: string;
           };
@@ -23,7 +23,6 @@ declare global {
   }
 }
 
-
 const CustomLanguageSelector: React.FC = () => {
   const [languages, setLanguages] = useState<Language[]>([]);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('');
@@ -31,7 +30,7 @@ const CustomLanguageSelector: React.FC = () => {
 
   const initializeGoogleTranslate = useCallback(() => {
     if (window.google && window.google.translate) {
-      new (window as any).google.translate.TranslateElement(
+      new window.google.translate.TranslateElement(
         {
           pageLanguage: 'en', // Set to your website's default language
           autoDisplay: false
@@ -41,7 +40,7 @@ const CustomLanguageSelector: React.FC = () => {
 
       const checkForElement = () => {
         const languageSelect = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-        if (Array.prototype.slice.call(languageSelect.options).length) {
+        if (languageSelect && Array.prototype.slice.call(languageSelect.options).length) {
           const langs: Language[] = Array.from(languageSelect.options)
             .filter(option => option.value !== '')
             .map(option => ({
@@ -51,11 +50,11 @@ const CustomLanguageSelector: React.FC = () => {
           setLanguages(langs);
           setIsGoogleTranslateReady(true);
         } else {
-          console.log('Retry populating languages...')
-          setTimeout(checkForElement, 200)
+          console.log('Retry populating languages...');
+          setTimeout(checkForElement, 200);
         }
-      }
-      checkForElement()
+      };
+      checkForElement();
     } else {
       // If Google Translate is not ready, try again after a short delay
       setTimeout(initializeGoogleTranslate, 100);
@@ -89,12 +88,12 @@ const CustomLanguageSelector: React.FC = () => {
         src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
         strategy="afterInteractive"
       />
-      <div className='notranslate'>
+      <div className="notranslate">
         <Select value={selectedLanguage} onValueChange={handleLanguageChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Language" />
           </SelectTrigger>
-          <SelectContent className='notranslate'>
+          <SelectContent className="notranslate">
             {languages.map((lang) => (
               <SelectItem key={lang.value} value={lang.value}>
                 {lang.label}
@@ -103,7 +102,6 @@ const CustomLanguageSelector: React.FC = () => {
           </SelectContent>
         </Select>
       </div>
-
     </>
   );
 };

@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Clock, Utensils, Globe, ChefHat } from 'lucide-react';
+import { Clock, Globe, ChefHat } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';

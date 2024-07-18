@@ -1,3 +1,4 @@
+import * as React from "react"
 import { Inter } from "next/font/google";
 import "@/app/css/style.css";
 import { Header } from "@/components/Header";

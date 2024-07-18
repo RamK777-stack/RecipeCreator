@@ -1,3 +1,29 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "react/no-unknown-property": ["error", { "ignore": ["jsx", "global", "cmdk-input-wrapper"] }],
+    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "React" }],
+    "no-unused-vars": "off"
+  },
+  "overrides": [
+    {
+      "files": ["src/components/ui/**/*.tsx"],
+      "rules": {
+        "react/no-unescaped-entities": "off",
+        "react/prop-types": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "react/display-name": "off"
+      }
+    }
+  ]
 }

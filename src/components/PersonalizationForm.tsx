@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/collapsible"
 import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons"
 import { Loader } from 'lucide-react';
-import RecipeCardList from './RecipeCardList';
 
 // Define the schema for form validation
 const formSchema = z.object({

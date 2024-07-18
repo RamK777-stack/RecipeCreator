@@ -5,12 +5,6 @@ import { Button } from './ui/button';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import GoogleTranslate from './GoogleTranslate';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
 import { TooltipWrapper } from './ui/TooltipWrapper';
 
 export function Header() {
