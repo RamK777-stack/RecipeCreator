@@ -34,7 +34,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: 'User input is required' }, { status: 400 });
     }
 
-    const apiKey = process.env["NEXT_PUBLIC_ANTHROPIC_API_KEY"];
+    const apiKey = process.env.ANTHROPIC_API_KEY;
 
     if (!apiKey) {
         console.error('Anthropic API key is not set');
